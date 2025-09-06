@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>NEAR STORE - Robux Tools</title>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background: #0d1b2a;
+      color: #00e0ff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 30px;
+      font-size: 22px;
+      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+    .navbar nav a {
+      color: #fff;
+      margin-left: 20px;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.3s;
+    }
+    .navbar nav a:hover, .navbar nav a.active {
+      color: #00e0ff;
+    }
+
+    /* Main container */
+    main {
+      padding: 120px 20px 40px;
+      max-width: 1000px;
+      margin: auto;
+      transition: all 0.3s ease;
+    }
+
+    /* Card */
+    .card {
+      background: #1b263b;
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      margin-bottom: 40px;
+      transition: all 0.3s ease;
+    }
+    .card h2 {
+      color: #00e0ff;
+      margin-bottom: 10px;
+    }
+    .card p {
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+    .card input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 15px;
+      font-size: 18px;
+      text-align: center;
+    }
+    .card button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 15px;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .card button:hover { transform: scale(1.03); }
+    .card button.primary {
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: #fff;
+    }
+    .card button.secondary {
+      background: #ff9800;
+      color: #fff;
+    }
+
+    /* Hasil kalkulasi */
+    .result {
+      background: #0f2027;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    .result span { font-weight: bold; }
+    .highlight-red { color: #ff5252; }
+    .highlight-blue { color: #00c6ff; }
+    .highlight-green { color: #4caf50; }
+
+    /* Hide sections */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* Gift catalog */
+    .gift-catalog {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .gift-catalog:hover { transform: scale(1.02); }
+
+    /* === Modal Popup === */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      color: #222;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-content img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 22px;
+      cursor: pointer;
+      color: #444;
+      font-weight: bold;
+    }
+    .close-btn:hover { color: #e91e63; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* === Light Mode === */
+    body.light {
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      color: #222;
+    }
+    body.light .navbar {
+      background: #ffffffcc;
+      color: #0072ff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    body.light .navbar nav a { color: #333; }
+    body.light .navbar nav a:hover, 
+    body.light .navbar nav a.active { color: #0072ff; }
+
+    body.light .card {
+      background: #ffffffd9;
+      color: #222;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    body.light .card h2 { color: #0072ff; }
+    body.light .card p { color: #444; }
+    body.light .result {
+      background: #f2f6fc;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">NEAR STORE</div>
+    <nav>
+      <a href="#" class="active" onclick="showSection('kalkulator', this)">🎮 Kalkulator</a>
+      <a href="#" onclick="showSection('gift', this)">🎁 Gift Gamepass</a>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <!-- Kalkulator Section -->
+    <section id="kalkulator" class="section active">
+      <div class="card">
+        <h2>🎮 Kalkulator Robux Gamepass</h2>
+        <p>Masukkan target Robux yang ingin diterima temanmu</p>
+        <input type="number" id="target" placeholder="Contoh: 100">
+        <button class="primary" onclick="hitung()">Hitung Sekarang</button>
+        <div class="result" id="output">🔎 Hasil akan muncul di sini...</div>
+        <button class="secondary" onclick="toggleMode()">🌙 Ubah Mode</button>
+      </div>
+    </section>
+
+    <!-- Gift Section -->
+    <section id="gift" class="section">
+      <div class="card">
+        <h2>🎁 Gift Gamepass</h2>
+        <p>Klik gambar katalog untuk melihat detail:</p>
+        <img src="c1398008-410d-4c51-97b7-4c234874823e.png" 
+             alt="Gift Gamepass Catalog" class="gift-catalog" onclick="openModal()">
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Popup -->
+  <div id="giftModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3>🎁 Gift Gamepass Expedition Antarctica</h3>
+      <img src="c1398008-410d-4c51-97b7-4c234874823e.png" alt="Gift Catalog">
+      <p>Daftar gamepass Expedition Antarctica tersedia. Silakan pilih item sesuai kebutuhan.</p>
+    </div>
+  </div>
+
+  <script>
+    // Fungsi navigasi
+    function showSection(id, el) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+
+      document.querySelectorAll('.navbar nav a').forEach(a => a.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // Kalkulator
+    function hitung() {
+      let target = document.getElementById("target").value;
+      target = parseInt(target);
+
+      if (isNaN(target) || target <= 0) {
+        document.getElementById("output").innerHTML = "⚠️ Masukkan angka yang valid!";
+        return;
+      }
+
+      let harusBayar = Math.round(target / 0.7);
+      let diterima = Math.floor(harusBayar * 0.7);
+
+      document.getElementById("output").innerHTML = `
+        🎯 Target teman terima: <span class="highlight-red">${target} R$</span><br>
+        💸 Harus bayar gamepass: <span class="highlight-blue">${harusBayar} R$</span><br>
+        ✅ Teman akan terima: <span class="highlight-green">${diterima} R$</span>
+      `;
+    }
+
+    // Dark/Light mode toggle
+    function toggleMode() {
+      document.body.classList.toggle("light");
+    }
+
+    // Modal Popup
+    function openModal() {
+      document.getElementById("giftModal").style.display = "flex";
+    }
+    function closeModal() {
+      document.getElementById("giftModal").style.display = "none";
+    }
+
+    // Tutup modal jika klik luar area
+    window.onclick = function(event) {
+      const modal = document.getElementById("giftModal");
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
